@@ -2,16 +2,16 @@
 ![marquee example02](piemarquee02.gif)
 *Cabinet by Justin Fite*
 
-# PieMarquee2
-Enhanced Marquee plugin for RetroPie, Rpi4  
+# PieMarquee2 (Based on original script)
+Enhanced Marquee plugin for RetroPie, Non-Rpi
 
-original code by RiNa from raspigamer forum (https://cafe.naver.com/raspigamer/)   
+Original code by RiNa from raspigamer forum (https://cafe.naver.com/raspigamer/)   
 https://github.com/rinalim/PieMarquee2
 All the credits goes to RiNa.
 ## Install
 ```
 cd /home/pi
-git clone https://github.com/losernator/PieMarquee2.git
+git clone --depth 1 --branch playbox-nonpi https://github.com/2play/PieMarquee2.git
 cd PieMarquee2
 chmod 755 ./install.sh
 ./install.sh
