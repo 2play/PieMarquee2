@@ -15,6 +15,8 @@ git clone --depth 1 --branch playbox-nonpi https://github.com/2play/PieMarquee2.
 cd PieMarquee2
 chmod 755 ./install.sh
 ./install.sh
+rm -rf /opt/retropie/configs/all/PieMarquee2/omxiv-marquee
+ln -sf /usr/bin/mpv /opt/retropie/configs/all/PieMarquee2/omxiv-marquee
 ```
 If you use different display as second monitor, You may need to change framebuffer resolution.  
 Add this line to /opt/retropie/configs/all/autostart.sh  
