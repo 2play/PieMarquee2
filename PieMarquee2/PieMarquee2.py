@@ -6,10 +6,22 @@ from time import *
 import xml.etree.ElementTree as ET
 
 INTRO = "/home/pi/PieMarquee2/intro.mp4"
+
+import subprocess
+#with open("/tmp/marquee.txt") as f:
+#    mainpng = f.read().strip()
+
+CONNECTOR = subprocess.check_output(
+    'grep -H connected /sys/class/drm/*HDMI*/status | tail -n1 | cut -d/ -f5 | cut -d- -f2-',
+    shell=True,
+    text=True
+).strip()
+
 ## for DPI screen
 #VIEWER = "/opt/retropie/configs/all/PieMarquee2/omxiv-marquee /tmp/marquee.txt -f -b -d 4 -t 5 -T blend --duration 900 > /dev/null 2>&1 &"
 ## for Pi4 hdmi
-VIEWER = "/opt/retropie/configs/all/PieMarquee2/omxiv-marquee /tmp/marquee.txt -f -b -d 7 -t 5 -T blend --duration 900 > /dev/null 2>&1 &"
+#VIEWER = "/opt/retropie/configs/all/PieMarquee2/omxiv-marquee /tmp/marquee.txt -f -b -d 7 -t 5 -T blend --duration 900 > /dev/null 2>&1 &"
+VIEWER = (f"/opt/retropie/configs/all/PieMarquee2/omxiv-marquee /home/pi/PieMarquee2/marquee/system/maintitle.png --hwdec=vaapi --vo=gpu --gpu-context=drm --fullscreen --start=7 --image-display-duration=900 > /dev/null 2>&1 &")
 
 arcade = ['arcade', 'fba', 'mame-advmame', 'mame-libretro', 'mame-mame4all']
 
@@ -47,7 +59,8 @@ if os.path.isfile(INTRO) == True:
     ## for DPI screen
     #run_cmd("omxplayer --display 4 " + INTRO)
     ## for Pi4 hdmi1
-    run_cmd("omxplayer --display 7 " + INTRO)
+    #run_cmd("omxplayer --display 7 " + INTRO)
+    run_cmd(f"mpv --hwdec=vaapi --gpu-context=drm --drm-connector={CONNECTOR} --fs " + INTRO)
 
 doc = ET.parse("/opt/retropie/configs/all/PieMarquee2/gamelist_short.xml")
 root = doc.getroot()
@@ -56,7 +69,8 @@ if os.path.isfile("/home/pi/PieMarquee2/marquee/system/maintitle.mp4") == True:
     ## for DPI screen
     #os.system("omxplayer --loop --no-osd --display 4 /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
     ## for Pi4 hdmi1
-    os.system("omxplayer --loop --no-osd --display 7 /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
+    #os.system("omxplayer --loop --no-osd --display 7 /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
+    os.system("mpv --loop --no-osd-bar /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
 else:
     os.system("echo '/home/pi/PieMarquee2/marquee/system/maintitle.png' > /tmp/marquee.txt")
     os.system(VIEWER)
@@ -153,7 +167,8 @@ while True:
             #os.system("omxplayer --loop --no-osd --display 4 /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
             ## for Pi4 hdmi1
             kill_proc("omxiv-marquee")
-            os.system("omxplayer --loop --no-osd --display 7 /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
+            #os.system("omxplayer --loop --no-osd --display 7 /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
+            os.system(f"mpv --hwdec=vaapi --gpu-context=drm --drm-connector={CONNECTOR} --loop --no-osd-bar --fs  /home/pi/PieMarquee2/marquee/system/maintitle.mp4 &")
             cur_imgname = imgname+ingame
         else:
             '''
